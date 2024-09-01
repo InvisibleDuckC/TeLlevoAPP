@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+ import { Component } from '@angular/core';
+ import { Router, NavigationExtras } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -7,6 +8,15 @@ import { Component } from '@angular/core';
 })
 export class HomePage {
 
-  constructor() {}
+  constructor(private router: Router) {}
 
+
+  irALogin(){
+    // Se declara e instancia un elemento de tipo NavigationExtras
+    let navigationExtras: NavigationExtras = {
+      state: {
+      }
+    };
+    this.router.navigate(['/login'],navigationExtras); // navegamos hacia el Home y enviamos información adicional
+  }
 }

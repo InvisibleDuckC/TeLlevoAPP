@@ -1,0 +1,55 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>login</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Bienvenido</ion-card-title>
+      <ion-card-subtitle>Ingresa tus credenciales</ion-card-subtitle>
+    </ion-card-header>
+  
+    <ion-card-content>
+      <ion-list>
+        <ion-item>
+          <ion-input label="Usuario" labelPlacement="stacked" maxlength="8" minlength="3" [(ngModel)]="user.usuario" [clearInput]="true"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-input label="Contraseña" labelPlacement="stacked" pattern="^\d{4}$" inputmode="numeric" type="password" [(ngModel)]="user.password" [clearInput]="true"></ion-input>
+        </ion-item>
+        <ion-button (click)="validarLogin()">Ingresar</ion-button>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+  
+
+
+
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-tabs>
+      <ion-tab-bar slot="bottom">
+        <ion-tab-button  (click)="irAHome()" tab="home">
+          <ion-icon name="home-outline"></ion-icon>
+          Home
+        </ion-tab-button>
+        <ion-tab-button tab="map">
+          <ion-icon name="globe-outline"></ion-icon>
+          Mapa
+        </ion-tab-button>
+        <ion-tab-button tab="profile">
+          <ion-icon name="person-outline"></ion-icon>
+          Perfil
+        </ion-tab-button>
+        <ion-tab-button disabled tab="login">
+          <ion-icon name="key-outline"></ion-icon>
+          Login
+        </ion-tab-button>
+      </ion-tab-bar>
+    </ion-tabs>
+  </ion-toolbar>
+</ion-footer>
