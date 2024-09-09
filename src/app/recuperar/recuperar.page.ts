@@ -11,12 +11,11 @@ export class RecuperarPage implements OnInit {
 
   usuario: string = '';
 
-  constructor(
-    private router: Router,
-    private alertController: AlertController
-  ) {}
+  constructor(private router: Router, private alertController: AlertController) {
 
-  async recuperarContraseña() {
+  }
+
+  async recuperarContrasena() {
     if (!this.usuario) {
       const alert = await this.alertController.create({
         header: 'Error',
@@ -26,17 +25,18 @@ export class RecuperarPage implements OnInit {
       await alert.present();
       return;
     }
-  const alert = await this.alertController.create({
+    const alert = await this.alertController.create({
       header: 'Éxito',
       message: `Solicitud de recuperación de contraseña enviada para el usuario: ${this.usuario}`,
       buttons: ['OK']
-  });
-  await alert.present();
+    });
+    await alert.present();
       
-  this.router.navigate(['/login']);
+    this.router.navigate(['/login']);
 
-}
-ngOnInit() {
-}
+  }
+
+  ngOnInit() {
+  }
 
 }
