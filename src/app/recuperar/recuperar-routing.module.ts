@@ -4,10 +4,11 @@ import { Routes, RouterModule } from '@angular/router';
 import { RecuperarPage } from './recuperar.page';
 
 const routes: Routes = [
-  {
-    path: '',
-    component: RecuperarPage
-  }
+/*   {path: 'login', loadChildren: () => import('./login/login.module').then(m =>m.loginPageModule) },
+  {path: 'restablecer',loadChildren: () => import('./recuperar/recuperar.module').then(m => m.RecuperarPageModule) },
+  
+  component: RecuperarPage
+   */
 ];
 
 @NgModule({
