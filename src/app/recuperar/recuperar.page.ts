@@ -30,6 +30,7 @@ export class RecuperarPage implements OnInit {
       message: `Solicitud de recuperación de contraseña enviada para el usuario: ${this.usuario}`,
       buttons: ['OK']
     });
+    
     await alert.present();
       
     this.router.navigate(['/login']);
