@@ -8,8 +8,7 @@ import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 })
 
 export class HomePage {
-  user = {usuario: '', password: ''};
-  profile = {nombre: "", apellido: "", sede:"",escuela:"",carrera:""};
+  user = {usuario: '', password: '',nombre: "", apellido: "", sede:"",escuela:"",carrera:""};
 
   constructor(private activeroute: ActivatedRoute, private router:Router) {
     //this.location = location;
@@ -17,7 +16,6 @@ export class HomePage {
       if(this.router.getCurrentNavigation()!.extras.state){
         console.log(this.router.getCurrentNavigation()!.extras.state!['user']);
         this.user = this.router.getCurrentNavigation()!.extras.state!['user'];
-        this.profile = this.router.getCurrentNavigation()!.extras.state!['profile'];
       }
     });
   }
@@ -27,7 +25,6 @@ export class HomePage {
     let navigationExtras: NavigationExtras = {
       state: {
         user: this.user, // Al estado se asignamos un objeto con clave y valor
-        profile: this.profile // Al estado se asignamos un objeto con clave y valor
       }
     };
     this.router.navigate(['/profile'],navigationExtras); // navegamos hacia el Perfil y enviamos información adicional

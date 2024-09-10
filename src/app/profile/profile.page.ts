@@ -22,8 +22,7 @@ export class ProfilePage implements OnInit {
   private animation: Animation | undefined;
   private animation_nombre: Animation | undefined;
 
-  user = {usuario: '', password: ''};
-  profile = {nombre: "", apellido: "", sede:"",escuela:"",carrera:""}
+  user = {usuario: '', password: '',nombre: "", apellido: "", sede:"",escuela:"",carrera:""};
 
 
   constructor(private activeroute: ActivatedRoute, private router:Router, private alertController: AlertController,private animationCtrl: AnimationController) {
@@ -31,7 +30,6 @@ export class ProfilePage implements OnInit {
       if(this.router.getCurrentNavigation()!.extras.state){
         console.log(this.router.getCurrentNavigation()!.extras.state!['user']);
         this.user = this.router.getCurrentNavigation()!.extras.state!['user'];
-        this.profile = this.router.getCurrentNavigation()!.extras.state!['profile'];
       }
     });
    }
@@ -59,8 +57,8 @@ export class ProfilePage implements OnInit {
   async presentAlert() {
     const alert = await this.alertController.create({
       header: 'Sus datos:',
-      subHeader: `Su nombre es: ${this.profile.nombre} ${this.profile.apellido}`,
-      message: `Tu sede: ${this.profile.sede}, tu carrera: ${this.profile.carrera}`,
+      subHeader: `Su nombre es: ${this.user.nombre} ${this.user.apellido}`,
+      message: `Tu sede: ${this.user.sede}, tu carrera: ${this.user.carrera}`,
       buttons: ['Ok'],
     });
 
@@ -69,8 +67,8 @@ export class ProfilePage implements OnInit {
 
   limpiar(){
     //this.location.reload();
-    this.profile.nombre = "";
-    this.profile.apellido = "";
+    this.user.nombre = "";
+    this.user.apellido = "";
 
     if(this.nombre_ && this.apellido_ && this.sede_ && this.escuela_ && this.carrera_){
       this.animation_nombre =  this.animationCtrl.create()
@@ -96,7 +94,6 @@ export class ProfilePage implements OnInit {
     let navigationExtras: NavigationExtras = {
       state: {
         user: this.user, // Al estado se asignamos un objeto con clave y valor
-        profile: this.profile
       }
     };
     this.router.navigate(['/home'],navigationExtras); // navegamos hacia el Home y enviamos información adicional
