@@ -39,15 +39,14 @@ export class ProfilePage implements OnInit {
 
   ngAfterViewInit() {
     if (this.titulo) {
-      this.animation = this.animationCtrl
-        .create()
+      this.animation = this.animationCtrl.create()
         .addElement(this.titulo.nativeElement)
         .duration(2500)
         .iterations(Infinity)
         .keyframes([
-          { offset: 0, transform: 'translate(0%)', opacity: '0.2' },
-          { offset: 0.5, transform: 'translate(50%)', opacity: '1' },
-          { offset: 1,  transform: 'translate(100%)', opacity: '0.2' },
+          { offset: 0, opacity: '0.35' },
+          { offset: 0.5, opacity: '1' },
+          { offset: 1, opacity: '0.35' },
         ]);
         
       this.animation.play();
@@ -69,6 +68,9 @@ export class ProfilePage implements OnInit {
     //this.location.reload();
     this.user.nombre = "";
     this.user.apellido = "";
+    this.user.sede = "";
+    this.user.escuela = "";
+    this.user.carrera = "";
 
     if(this.nombre_ && this.apellido_ && this.sede_ && this.escuela_ && this.carrera_){
       this.animation_nombre =  this.animationCtrl.create()
