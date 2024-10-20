@@ -6,6 +6,8 @@ import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 // Firebase y Firestore
 import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
@@ -16,16 +18,18 @@ import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [AppComponent],
-  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule],
+  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, ReactiveFormsModule, FormsModule ],
   providers: [
     { 
       provide: RouteReuseStrategy,
       useClass: IonicRouteStrategy
     },
-      // Aquí usamos el nuevo sistema de proveedores
-      provideFirebaseApp(() => initializeApp(environment.firebase)),
-      provideFirestore(() => getFirestore())
+    provideFirebaseApp(() => initializeApp(environment.firebase)),
+    provideFirestore(() => getFirestore()),
+    provideAnimationsAsync()
   ],
   bootstrap: [AppComponent],
+  
 })
 export class AppModule {}
+
