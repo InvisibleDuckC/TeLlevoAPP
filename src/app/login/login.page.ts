@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
+import { PermisosService } from '../permisos.service';
 
 @Component({
   selector: 'app-login',
@@ -9,11 +10,11 @@ import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 export class LoginPage implements OnInit {
 
   user={
-    usuario:"",
-    password:""
+    usuario:"luz",
+    password:"2345"
   }
 
-  constructor(private activeroute: ActivatedRoute, private router:Router) {
+  constructor(private activeroute: ActivatedRoute, private router:Router, private permisosService: PermisosService ) {
     //this.location = location;
     this.activeroute.queryParams.subscribe(params => {
       if(this.router.getCurrentNavigation()!.extras.state){
@@ -38,6 +39,7 @@ export class LoginPage implements OnInit {
 
   validarLogin(){
     if(this.user.usuario.length >= 3 && this.user.usuario.length <= 10 && this.user.password.length == 4 && this.user.password.match(/^\d{4}$/)){
+      this.permisosService.login_user(this.user.usuario, this.user.password)
       this.ingresar();
     }
     else{
