@@ -1,6 +1,6 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>Profile</ion-title>
+    <ion-title #titulo>Perfil</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -8,19 +8,19 @@
   <ion-card-content>
     <ion-card-title>Informacion Adicional {{user.usuario}}</ion-card-title>
     <ion-item>
-      <ion-input #nombre_ label="Nombre" label-placement="fixed" [(ngModel)]="profile.nombre" placeholder="Ingrese nombre"></ion-input>
+      <ion-input #nombre_ label="Nombre" label-placement="fixed" [(ngModel)]="user.nombre" placeholder="Ingrese nombre"></ion-input>
     </ion-item>
     <ion-item>
-      <ion-input #apellido_ label="Apellido" label-placement="fixed" [(ngModel)]="profile.apellido" placeholder="Ingrese apellido"></ion-input>
+      <ion-input #apellido_ label="Apellido" label-placement="fixed" [(ngModel)]="user.apellido" placeholder="Ingrese apellido"></ion-input>
     </ion-item>
     <ion-item>
-      <ion-input #sede_ label="Sede" label-placement="fixed" [(ngModel)]="profile.sede" placeholder="Ingrese sede"></ion-input>
+      <ion-input #sede_ label="Sede" label-placement="fixed" [(ngModel)]="user.sede" placeholder="Ingrese sede"></ion-input>
     </ion-item>
     <ion-item>
-      <ion-input #escuela_ label="Escuela" label-placement="fixed" [(ngModel)]="profile.escuela" placeholder="Ingrese escuela"></ion-input>
+      <ion-input #escuela_ label="Escuela" label-placement="fixed" [(ngModel)]="user.escuela" placeholder="Ingrese escuela"></ion-input>
     </ion-item>
     <ion-item>
-      <ion-input #carrera_ label="Carrera" label-placement="fixed" [(ngModel)]="profile.carrera" placeholder="Ingrese carrera"></ion-input>
+      <ion-input #carrera_ label="Carrera" label-placement="fixed" [(ngModel)]="user.carrera" placeholder="Ingrese carrera"></ion-input>
     </ion-item>
     <ion-row>
       <ion-col>
@@ -44,7 +44,7 @@
           <ion-icon name="globe-outline"></ion-icon>
           Mapa
         </ion-tab-button>
-        <ion-tab-button tab="profile">
+        <ion-tab-button disabled tab="profile">
           <ion-icon name="person-outline"></ion-icon>
           Perfil
         </ion-tab-button>

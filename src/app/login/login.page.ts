@@ -35,6 +35,7 @@ export class LoginPage implements OnInit {
     };
     this.router.navigate(['/home'],navigationExtras); // navegamos hacia el Home y enviamos información adicional
   }
+
   validarLogin(){
     if(this.user.usuario.length >= 3 && this.user.usuario.length <= 10 && this.user.password.length == 4 && this.user.password.match(/^\d{4}$/)){
       this.ingresar();
@@ -42,5 +43,9 @@ export class LoginPage implements OnInit {
     else{
       alert("Usuario y/o contraseña incorrectos");
     }
+  }
+
+  recuperarContrasena(){
+    this.router.navigate(['/recuperar'])
   }
 }

@@ -19,7 +19,13 @@
         <ion-item>
           <ion-input label="Contraseña" labelPlacement="stacked" pattern="^\d{4}$" inputmode="numeric" type="password" [(ngModel)]="user.password" [clearInput]="true"></ion-input>
         </ion-item>
-        <ion-button (click)="validarLogin()">Ingresar</ion-button>
+        <ion-item>
+          <ion-button (click)="recuperarContrasena()" fill="clear">Restablecer contraseña</ion-button>
+        </ion-item>
+        <ion-item>
+          <ion-button (click)="validarLogin()">Ingresar</ion-button>
+        </ion-item>
+        
       </ion-list>
     </ion-card-content>
   </ion-card>
