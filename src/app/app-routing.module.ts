@@ -14,7 +14,7 @@ const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: 'chofer',
+    redirectTo: 'login',
     pathMatch: 'full'
   },
   {
@@ -26,20 +26,16 @@ const routes: Routes = [
     loadChildren: () => import('./profile/profile.module').then( m => m.ProfilePageModule)
   },
   {
+    path: 'registro',
+    loadChildren: () => import('./registro/registro.module').then( m => m.RegistroPageModule)
+  },
+
+  {
     path: '**',
     loadChildren: () => import('./error-carga/error-carga.module').then( m => m.ErrorCargaPageModule)
   },
-  {
-    path: 'pasajero',
-    loadChildren: () => import('./pasajero/pasajero.module').then( m => m.PasajeroPageModule)
-  },
-  {
-    path: 'chofer',
-    loadChildren: () => import('./chofer/chofer.module').then( m => m.ChoferPageModule)
-  },
-  
+     
  ];
-
 
 @NgModule({
   imports: [

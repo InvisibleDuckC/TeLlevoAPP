@@ -4,26 +4,30 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { ChoferPageRoutingModule } from './chofer-routing.module';
+import { RegistroPageRoutingModule } from './registro-routing.module';
 
-import { ChoferPage } from './chofer.page';
+import { RegistroPage } from './registro.page';
 
 // importacion para el angular material 
 
 import {MatSelectModule} from '@angular/material/select';
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
+import { MatButtonModule } from '@angular/material/button';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    ChoferPageRoutingModule,
+    RegistroPageRoutingModule,
     MatFormFieldModule, 
     MatInputModule, 
     MatSelectModule,
-    ],
-  declarations: [ChoferPage]
+    MatButtonModule,
+    ReactiveFormsModule,
+  ],
+  declarations: [RegistroPage]
 })
-export class ChoferPageModule {}
+export class RegistroPageModule {}
