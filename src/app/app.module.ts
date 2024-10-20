@@ -9,10 +9,25 @@ import { AppRoutingModule } from './app-routing.module';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
+// Firebase y Firestore
+import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
+import { provideFirestore, getFirestore } from '@angular/fire/firestore';
+
+// Environment con la configuración de Firebase
+import { environment } from '../environments/environment';
+
 @NgModule({
   declarations: [AppComponent],
   imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, ReactiveFormsModule, FormsModule ],
-  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, provideAnimationsAsync()],
+  providers: [
+    { 
+      provide: RouteReuseStrategy,
+      useClass: IonicRouteStrategy
+    },
+    provideFirebaseApp(() => initializeApp(environment.firebase)),
+    provideFirestore(() => getFirestore()),
+    provideAnimationsAsync()
+  ],
   bootstrap: [AppComponent],
   
 })
