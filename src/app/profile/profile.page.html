@@ -15,13 +15,24 @@
     </ion-item>
     <ion-item>
       <ion-input #sede_ label="Sede" label-placement="fixed" [(ngModel)]="user.sede" placeholder="Ingrese sede"></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-input #escuela_ label="Escuela" label-placement="fixed" [(ngModel)]="user.escuela" placeholder="Ingrese escuela"></ion-input>
+      <ion-select label="Sede" formControlName="sede">
+        <ion-select-option value="Antonio_Varas">Antonio Varas</ion-select-option>
+        <ion-select-option value="Republica">República</ion-select-option>
+        <ion-select-option value="Maipu">Maipú</ion-select-option>
+       </ion-select>
     </ion-item>
     <ion-item>
       <ion-input #carrera_ label="Carrera" label-placement="fixed" [(ngModel)]="user.carrera" placeholder="Ingrese carrera"></ion-input>
     </ion-item>
+    <ion-segment (ionChange)="onChangeSegment($event)" value="buttons">
+      <ion-segment-button value="chofer">
+        <ion-label>Chofer</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="pasajero">
+        <ion-label>Pasajero</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+
     <ion-row>
       <ion-col>
         <ion-button (click)="limpiar()">Limpiar</ion-button>
@@ -29,6 +40,9 @@
       </ion-col>
     </ion-row>
   </ion-card-content>
+  <app-chofer *ngIf="segment === 'chofer'"></app-chofer>
+  <app-pasajero *ngIf="segment === 'pasajero'"></app-chofer>
+  <router-outlet></router-outlet>
 </ion-content>
 
 

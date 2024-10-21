@@ -24,6 +24,7 @@ export class ProfilePage implements OnInit {
 
   user = {usuario: '', password: '',nombre: "", apellido: "", sede:"",escuela:"",carrera:""};
 
+  segment = "pasajero"
 
   constructor(private activeroute: ActivatedRoute, private router:Router, private alertController: AlertController,private animationCtrl: AnimationController) {
     this.activeroute.queryParams.subscribe(params => {
@@ -99,5 +100,9 @@ export class ProfilePage implements OnInit {
       }
     };
     this.router.navigate(['/home'],navigationExtras); // navegamos hacia el Home y enviamos información adicional
+  }
+
+  onChangeSegment(event: any){
+    this.segment = event.detail.value;
   }
 }

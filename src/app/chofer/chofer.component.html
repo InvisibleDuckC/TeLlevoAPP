@@ -1,0 +1,26 @@
+<!-- Formulario para Chofer -->
+<form>
+  <ion-list>
+    <ion-item>
+      <ion-input label="Patente" formControlName="patente"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-input label="Model" formControlName="modelo"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-input label="Marca" formControlName="marca"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-select label="Asientos" formControlName="Asientos">
+        <ion-select-option value="1_asiento">1</ion-select-option>
+        <ion-select-option value="2_asiento">2</ion-select-option>
+        <ion-select-option value="3_asiento">3</ion-select-option>
+        <ion-select-option value="4_asiento">4</ion-select-option>
+        <ion-select-option value="5_asiento">5</ion-select-option>
+        <ion-select-option value="6_asiento">6</ion-select-option>
+      </ion-select>
+    </ion-item>
+  </ion-list>
+
+  <ion-button color="primary" >Enviar</ion-button>
+</form>
