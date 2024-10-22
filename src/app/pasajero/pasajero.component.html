@@ -1,0 +1,14 @@
+  <!-- Formulario para Pasajeros -->
+    <ion-item>
+      <ion-input label="Direccion Particular" [(ngModel)]="user.direccion"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-select label="Pasajeros" [(ngModel)]="user.pasajeros">
+        <ion-select-option value="1_pasajero">1</ion-select-option>
+        <ion-select-option value="2_pasajero">2</ion-select-option>
+        <ion-select-option value="3_pasajero">3</ion-select-option>
+        <ion-select-option value="4_pasajero">4</ion-select-option>
+      </ion-select>
+    </ion-item>  
+    
+    <ion-button (click)="guardarEnSessionStorage()" color="primary">Confirmar datos pasajero</ion-button>

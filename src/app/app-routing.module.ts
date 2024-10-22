@@ -28,14 +28,10 @@ const routes: Routes = [
     loadChildren: () => import('./profile/profile.module').then( m => m.ProfilePageModule)
   },
   {
-    path: 'registro',
-    loadChildren: () => import('./registro/registro.module').then( m => m.RegistroPageModule)
-  },
-
-  {
     path: '**',
     loadChildren: () => import('./error-carga/error-carga.module').then( m => m.ErrorCargaPageModule)
   },
+
      
  ];
 

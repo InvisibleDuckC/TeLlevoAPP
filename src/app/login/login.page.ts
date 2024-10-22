@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { PermisosService } from '../permisos.service';
+import { FirestoreService } from '../services/firestore.service';
 
 @Component({
   selector: 'app-login',
@@ -14,14 +15,13 @@ export class LoginPage implements OnInit {
     password:"2345"
   }
 
-  constructor(private activeroute: ActivatedRoute, private router:Router, private permisosService: PermisosService ) {
-    //this.location = location;
-    this.activeroute.queryParams.subscribe(params => {
-      if(this.router.getCurrentNavigation()!.extras.state){
-        console.log(this.router.getCurrentNavigation()!.extras.state!['user']);
-        this.user = this.router.getCurrentNavigation()!.extras.state!['user'];
-      }
-    });
+  constructor(
+    private activeroute: ActivatedRoute,
+    private router:Router,
+    private permisosService: PermisosService,
+    private firestoreService: FirestoreService 
+  ) {
+
   }
 
   ngOnInit() {
@@ -29,12 +29,36 @@ export class LoginPage implements OnInit {
 
   ingresar(){
     // Se declara e instancia un elemento de tipo NavigationExtras
-    let navigationExtras: NavigationExtras = {
-      state: {
-        user: this.user // Al estado se asignamos un objeto con clave y valor
+    const userData = { usuario: this.user.usuario };
+    sessionStorage.setItem('user', JSON.stringify(userData)); 
+    this.login();
+    this.router.navigate(['/home']); // navegamos hacia el Home y enviamos información adicional
+  }
+
+  async login() {
+    try {
+      const userExists = await this.firestoreService.userExists(this.user.usuario);
+      if (userExists) {
+        console.log('Usuario existe. Recuperando datos...');
+        
+        // Obtener los datos del usuario
+        const userData = await this.firestoreService.getUserData(this.user.usuario);
+        
+        if (userData) {
+          // Guardar datos en sessionStorage
+          sessionStorage.setItem('user', JSON.stringify(userData));
+          // Agrega otros campos que necesites guardar
+
+          console.log('Datos del usuario guardados en sessionStorage:', userData);
+          // Aquí puedes redirigir al usuario a la página principal o donde desees
+        }
+      } else {
+        console.error('Usuario no encontrado. Verifica tus credenciales.');
+        // Mostrar un mensaje de error al usuario
       }
-    };
-    this.router.navigate(['/home'],navigationExtras); // navegamos hacia el Home y enviamos información adicional
+    } catch (error) {
+      console.error('Error al verificar usuario:', error);
+    }
   }
 
   validarLogin(){
