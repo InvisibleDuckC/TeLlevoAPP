@@ -1,10 +1,9 @@
   <!-- Formulario para Pasajeros -->
-  <form>
     <ion-item>
-      <ion-input label="Direccion Particular" formControlName="direccion"></ion-input>
+      <ion-input label="Direccion Particular" [(ngModel)]="user.direccion"></ion-input>
     </ion-item>
     <ion-item>
-      <ion-select>
+      <ion-select label="Pasajeros" [(ngModel)]="user.pasajeros">
         <ion-select-option value="1_pasajero">1</ion-select-option>
         <ion-select-option value="2_pasajero">2</ion-select-option>
         <ion-select-option value="3_pasajero">3</ion-select-option>
@@ -12,5 +11,4 @@
       </ion-select>
     </ion-item>  
     
-    <button mat-raised-button color="primary">Enviar</button>
-  </form>
+    <ion-button (click)="guardarEnSessionStorage()" color="primary">Confirmar datos pasajero</ion-button>

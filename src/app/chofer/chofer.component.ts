@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
+
 @Component({
   selector: 'app-chofer',
   templateUrl: './chofer.component.html',
@@ -8,16 +9,37 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class ChoferComponent  implements OnInit {
 
-  choferForm: FormGroup;
+  user = {
+    usuario: '',
+    nombre: "",
+    apellido: "",
+    sede:"",
+    carrera:"",
+    patente :'',
+    marca:'',
+    modelo:'',
+    asientos:'',
+    direccion :'',
+    pasajeros:''
+  };
   
-  constructor(private fb: FormBuilder) {
-    // Inicializa el formulario de chofer
-    this.choferForm = this.fb.group({
-      nombre: ['', Validators.required],
-      licencia: ['', Validators.required]
-    });
+  constructor() {
+    this.cargarDesdeSessionStorage();
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    
+  }
+
+  guardarEnSessionStorage() {
+    sessionStorage.setItem('user', JSON.stringify(this.user));
+  }
+
+  cargarDesdeSessionStorage() {
+    const userData = sessionStorage.getItem('user');
+    if (userData) {
+      this.user = JSON.parse(userData);
+    }
+  }
 
 }

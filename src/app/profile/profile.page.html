@@ -6,7 +6,7 @@
 
 <ion-content [fullscreen]="true">
   <ion-card-content>
-    <ion-card-title>Informacion Adicional {{user.usuario}}</ion-card-title>
+    <ion-card-title>Informacion basica de {{user.usuario}}</ion-card-title>
     <ion-item>
       <ion-input #nombre_ label="Nombre" label-placement="fixed" [(ngModel)]="user.nombre" placeholder="Ingrese nombre"></ion-input>
     </ion-item>
@@ -14,8 +14,7 @@
       <ion-input #apellido_ label="Apellido" label-placement="fixed" [(ngModel)]="user.apellido" placeholder="Ingrese apellido"></ion-input>
     </ion-item>
     <ion-item>
-      <ion-input #sede_ label="Sede" label-placement="fixed" [(ngModel)]="user.sede" placeholder="Ingrese sede"></ion-input>
-      <ion-select label="Sede" formControlName="sede">
+      <ion-select label="Sede" [(ngModel)]="user.sede">
         <ion-select-option value="Antonio_Varas">Antonio Varas</ion-select-option>
         <ion-select-option value="Republica">República</ion-select-option>
         <ion-select-option value="Maipu">Maipú</ion-select-option>
@@ -24,6 +23,7 @@
     <ion-item>
       <ion-input #carrera_ label="Carrera" label-placement="fixed" [(ngModel)]="user.carrera" placeholder="Ingrese carrera"></ion-input>
     </ion-item>
+    <ion-button (click)="guardarEnSessionStorage()">Confirmar datos basicos</ion-button>
     <ion-segment (ionChange)="onChangeSegment($event)" value="buttons">
       <ion-segment-button value="chofer">
         <ion-label>Chofer</ion-label>
@@ -32,17 +32,12 @@
         <ion-label>Pasajero</ion-label>
       </ion-segment-button>
     </ion-segment>
+    <app-pasajero *ngIf="segment === 'pasajero'"></app-pasajero>
+    <app-chofer *ngIf="segment === 'chofer'"></app-chofer>
+    
+    
 
-    <ion-row>
-      <ion-col>
-        <ion-button (click)="limpiar()">Limpiar</ion-button>
-        <ion-button (click)="presentAlert()">Mostrar</ion-button>
-      </ion-col>
-    </ion-row>
   </ion-card-content>
-  <app-chofer *ngIf="segment === 'chofer'"></app-chofer>
-  <app-pasajero *ngIf="segment === 'pasajero'"></app-chofer>
-  <router-outlet></router-outlet>
 </ion-content>
 
 
@@ -50,7 +45,7 @@
   <ion-toolbar>
     <ion-tabs>
       <ion-tab-bar slot="bottom">
-        <ion-tab-button (click)="irAHome()" tab="home">
+        <ion-tab-button (click)="irAHome()">
           <ion-icon name="home-outline"></ion-icon>
           Home
         </ion-tab-button>

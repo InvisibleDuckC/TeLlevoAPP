@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { IonicModule } from '@ionic/angular';
+
 
 @Component({
   selector: 'app-pasajero',
@@ -8,17 +10,37 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class PasajeroComponent  implements OnInit {
 
-  clienteForm: FormGroup;
+  user = {
+    usuario: '',
+    nombre: "",
+    apellido: "",
+    sede:"",
+    carrera:"",
+    patente :'',
+    marca:'',
+    modelo:'',
+    asientos:'',
+    direccion :'',
+    pasajeros:''
+  };
 
   constructor(private fb: FormBuilder) {
 
-    // Inicializa el formulario de cliente
-    this.clienteForm = this.fb.group({
-      nombre: ['', Validators.required],
-      correo: ['', [Validators.required, Validators.email]]
-    });
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.cargarDesdeSessionStorage()
+  }
+
+  guardarEnSessionStorage() {
+    sessionStorage.setItem('user', JSON.stringify(this.user));
+  }
+
+  cargarDesdeSessionStorage() {
+    const userData = sessionStorage.getItem('user');
+    if (userData) {
+      this.user = JSON.parse(userData);
+    }
+  }
 
 }
