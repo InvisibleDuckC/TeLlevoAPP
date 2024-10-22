@@ -10,7 +10,7 @@ export class PermisosService {
   constructor() { }
 
   login_user(user: string, password: string) {
-    if (user == 'luz' && password == '2345') {
+    if (user == 'luz' && password == '2345' || user == 'rod' && password == '1234') {
       this.login = true;
       this.usuario = user;
     } else {
