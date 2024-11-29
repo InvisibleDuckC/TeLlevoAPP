@@ -14,8 +14,42 @@
     </ion-card-header>
   
     <ion-card-content>
-      Aqui se mostrara la informacion de solicitud de servicio en siguientes actualizaciones
+      <ion-row>
+        <ion-label>Necesitas solicitar un viaje?</ion-label>
+      </ion-row>
+      <ion-row>
+        <ion-button (click)="cambiarEstado()">{{ solicitud ? 'Cancelar' : 'Pedir Viaje' }}</ion-button>
+      </ion-row>
+      
+
+      
+      <ion-card *ngIf="solicitud === true">
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>Punto de partida</ion-card-title>
+          </ion-card-header>
+
+          <ion-card-content>
+            <ion-input label="Direccion" label-placement="fixed" [(ngModel)]="user.direccion"></ion-input>
+          </ion-card-content>
+        </ion-card>
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>Punto de destino</ion-card-title>
+          </ion-card-header>
+
+          <ion-card-content>
+            <ion-select label="Sede" [(ngModel)]="user.sede">
+              <ion-select-option *ngFor="let sede of sedes" value="{{sede.nombre}}">{{sede.nombre}}</ion-select-option>
+            </ion-select>
+          </ion-card-content>
+        </ion-card>
+        <ion-button>Solicitar</ion-button>
+      </ion-card>
+      
+      
     </ion-card-content>
+    
   </ion-card>
 
 

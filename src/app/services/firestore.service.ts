@@ -8,16 +8,23 @@ import { Observable } from 'rxjs';
 })
 export class FirestoreService {
 
-  private collectionRef: CollectionReference;
+  private userRef: CollectionReference;
+  private sedesRef: CollectionReference;
 
   constructor(private firestore: Firestore) {
     // Define la colección que vas a usar
-    this.collectionRef = collection(this.firestore, 'users');
+    this.userRef = collection(this.firestore, 'users');
+    this.sedesRef = collection(this.firestore, 'sedes');
   }
 
   // Obtener todos los documentos
   getItems(): Observable<any[]> {
-    return collectionData(this.collectionRef, { idField: 'id' });
+    return collectionData(this.userRef, { idField: 'id' });
+  }
+
+  // Obtener todas las sedes
+  getSedes(): Observable<any[]> {
+    return collectionData(this.sedesRef, { idField: 'id' });
   }
 
   // Obtener un solo documento por ID
@@ -28,7 +35,7 @@ export class FirestoreService {
 
   // Crear un nuevo documento
   addItem(data: any) {
-    return addDoc(this.collectionRef, data);
+    return addDoc(this.userRef, data);
   }
 
   // Cambia el tipo de retorno a Promise<DocumentReference>

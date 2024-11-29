@@ -24,6 +24,8 @@ export class ProfilePage implements OnInit {
   private animation: Animation | undefined;
   private animation_nombre: Animation | undefined;
 
+  sedes: any = [];
+
   user = {
     usuario: '',
     nombre: "",
@@ -46,11 +48,19 @@ export class ProfilePage implements OnInit {
     private alertController: AlertController,
     private animationCtrl: AnimationController,
     private firestoreService: FirestoreService
-  ) {
-    this.cargarDesdeSessionStorage();
-   }
+  ) { }
 
-  ngOnInit() {
+   ngOnInit() {
+    this.firestoreService.getSedes().subscribe(
+      (data) => {
+        this.sedes = data;
+      },
+      (error) => {
+        console.error('Error al obtener las sedes:', error);
+      }
+    );
+    console.log(this.sedes);
+    this.cargarDesdeSessionStorage();
   }
 
   ngAfterViewInit() {
@@ -71,9 +81,7 @@ export class ProfilePage implements OnInit {
 
   async presentAlert() {
     const alert = await this.alertController.create({
-      header: 'Sus datos:',
-      subHeader: `Su nombre es: ${this.user.nombre} ${this.user.apellido}`,
-      message: `Tu sede: ${this.user.sede}, tu carrera: ${this.user.carrera}`,
+      message: "Datos guardados",
       buttons: ['Ok'],
     });
 
@@ -118,6 +126,7 @@ export class ProfilePage implements OnInit {
   // Guardar datos en localStorage
   guardarEnSessionStorage() {
     sessionStorage.setItem('user', JSON.stringify(this.user));
+    this.presentAlert();
   }
   
   // Obtener datos desde localStorage

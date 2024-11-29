@@ -32,13 +32,27 @@ export class HomePage {
     pasajeros:''
   };
 
+  sedes: any = [];
+
+  solicitud = false;
+
   constructor(
     private activeroute: ActivatedRoute,
     private router:Router,
     private animationCtrl: AnimationController,
     private firestoreService: FirestoreService
-  ) 
-  {
+  ) { }
+
+  ngOnInit() {
+    this.firestoreService.getSedes().subscribe(
+      (data) => {
+        this.sedes = data;
+      },
+      (error) => {
+        console.error('Error al obtener las sedes:', error);
+      }
+    );
+    console.log(this.sedes);
     this.cargarDesdeSessionStorage();
   }
 
@@ -104,20 +118,28 @@ export class HomePage {
     this.router.navigate(['/profile'],navigationExtras); // navegamos hacia el Perfil y enviamos información adicional
   }
 
-    guardarEnSessionStorage() {
-      sessionStorage.setItem('user', JSON.stringify(this.user));
-    }
+  guardarEnSessionStorage() {
+    sessionStorage.setItem('user', JSON.stringify(this.user));
+  }
   
-    cargarDesdeSessionStorage() {
-      const userData = sessionStorage.getItem('user');
-      if (userData) {
-        this.user = JSON.parse(userData);
-      }
+  cargarDesdeSessionStorage() {
+    const userData = sessionStorage.getItem('user');
+    if (userData) {
+      this.user = JSON.parse(userData);
     }
+  }
   
-    limpiarSessionStorage() {
-      sessionStorage.removeItem('user');
-      console.log('Datos eliminados de localStorage');
+  limpiarSessionStorage() {
+    sessionStorage.removeItem('user');
+    console.log('Datos eliminados de localStorage');
+  }
+
+  cambiarEstado(){
+    if (this.solicitud) {
+      this.solicitud = false;
+    } else{
+      this.solicitud = true;
     }
+  }
 
 }

@@ -15,10 +15,8 @@
     </ion-item>
     <ion-item>
       <ion-select label="Sede" [(ngModel)]="user.sede">
-        <ion-select-option value="Antonio_Varas">Antonio Varas</ion-select-option>
-        <ion-select-option value="Republica">República</ion-select-option>
-        <ion-select-option value="Maipu">Maipú</ion-select-option>
-       </ion-select>
+        <ion-select-option *ngFor="let sede of sedes" value="{{sede.nombre}}">{{sede.nombre}}</ion-select-option>
+      </ion-select>
     </ion-item>
     <ion-item>
       <ion-input #carrera_ label="Carrera" label-placement="fixed" [(ngModel)]="user.carrera" placeholder="Ingrese carrera"></ion-input>
