@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import { Firestore, collectionData, docData, CollectionReference, DocumentReference } from '@angular/fire/firestore';
 import { addDoc, deleteDoc, updateDoc, doc, collection, query, QuerySnapshot, where, getDocs, DocumentData, setDoc } from 'firebase/firestore';
 import { Observable } from 'rxjs';
@@ -6,14 +6,24 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class FirestoreService {
+export class FirestoreService implements OnInit {
 
-  private collectionRef: CollectionReference;
+  private collectionRef!: CollectionReference;
 
   constructor(private firestore: Firestore) {
-    // Define la colección que vas a usar
+
+  }
+  ngOnInit() {
+    console.log('Firestore instance:', this.firestore);
+    try {
+      this.collectionRef = collection(this.firestore, 'users');
+    } catch (error) {
+      console.error('Error al llamar a collection():', error);
+    }
     this.collectionRef = collection(this.firestore, 'users');
   }
+  
+
 
   // Obtener todos los documentos
   getItems(): Observable<any[]> {
@@ -39,6 +49,7 @@ export class FirestoreService {
 
   // Actualizar un documento existente
   updateItem(id: string, data: any) {
+
     const itemDocRef: DocumentReference = doc(this.firestore, `users/${id}`);
     return updateDoc(itemDocRef, data);
   }
