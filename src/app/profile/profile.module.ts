@@ -7,8 +7,8 @@ import { IonicModule } from '@ionic/angular';
 import { ProfilePageRoutingModule } from './profile-routing.module';
 
 import { ProfilePage } from './profile.page';
-import { PasajeroComponent } from '../pasajero/pasajero.component';
-import { ChoferComponent } from '../chofer/chofer.component';
+import { PasajeroComponent } from '../components/pasajero/pasajero.component';
+import { ChoferComponent } from '../components/chofer/chofer.component';
 
 
 @NgModule({

@@ -3,13 +3,18 @@
     <ion-title #titulo>
       Home
     </ion-title>
+    <ion-buttons slot="end">
+      <ion-button id="menu-trigger" (click)="openMenu($event)">
+        <ion-icon slot="icon-only" name="ellipsis-vertical"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
   <ion-card class="card">
     <ion-card-header>
-      <ion-card-subtitle>Usuario {{user.usuario}}</ion-card-subtitle>
+      <ion-card-subtitle>Usuario {{user.nombre}}</ion-card-subtitle>
       <ion-card-title>Bienvenido</ion-card-title>
     </ion-card-header>
   
@@ -64,9 +69,9 @@
           <ion-icon name="home-outline"></ion-icon>
           Home
         </ion-tab-button>
-        <ion-tab-button tab="map">
-          <ion-icon name="globe-outline"></ion-icon>
-          Mapa
+        <ion-tab-button tab="trip">
+          <ion-icon name="send-outline"></ion-icon>
+          Viajes
         </ion-tab-button>
         <ion-tab-button (click)="irAPerfil()">
           <ion-icon name="person-outline"></ion-icon>

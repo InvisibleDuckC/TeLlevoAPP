@@ -5,6 +5,8 @@ import type { Animation } from '@ionic/angular';
 import { AnimationController,  } from '@ionic/angular';
 
 import { FirestoreService } from '../services/firestore.service';
+import { PermisosService } from '../services/permisos.service';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 
 
 @Component({
@@ -26,41 +28,63 @@ export class ProfilePage implements OnInit {
 
   sedes: any = [];
 
-  user = {
-    usuario: '',
-    nombre: "",
-    apellido: "",
-    sede:"",
-    carrera:"",
-    patente :'',
-    marca:'',
-    modelo:'',
-    asientos:'',
-    direccion :'',
-    pasajeros:''
-  };
+  usuario: any;
+  userData: any = {}; // Datos del usuario
+  choferData: any = {}; // Datos del chofer
+  pasajeroData: any = {}; // Datos del pasajero
+  uid: string | null = null; // UID del usuario logueado
+  loading: boolean = true; // Indicador de carga
 
-  segment = "pasajero"
+  selectedSegment: string = 'pasajero';
 
   constructor(
     private activeroute: ActivatedRoute,
     private router:Router,
     private alertController: AlertController,
     private animationCtrl: AnimationController,
-    private firestoreService: FirestoreService
+    private firestoreService: FirestoreService,
+    private firestore: AngularFirestore,
+    private permisosService: PermisosService
   ) { }
 
-   ngOnInit() {
-    this.firestoreService.getSedes().subscribe(
-      (data) => {
-        this.sedes = data;
-      },
-      (error) => {
-        console.error('Error al obtener las sedes:', error);
-      }
-    );
-    console.log(this.sedes);
-    this.cargarDesdeSessionStorage();
+  ngOnInit() {
+    const user = JSON.parse(localStorage.getItem('userData') || '{}');
+    this.uid = this.permisosService.getUid();
+    console.log(user);
+    console.log(this.uid);
+
+    // Obtener la lista de sedes desde Firestore
+    this.sedes = this.firestore.collection('sedes').valueChanges();
+
+    if (this.uid) {
+      // Obtener los datos del usuario
+      this.permisosService.getUserData(this.uid).subscribe((data) => {
+        if (data) {
+          this.userData = data;
+          this.loading = false;
+        } else {
+          console.error('No se encontraron datos del usuario');
+        }
+      });
+
+      // Obtener los datos del chofer
+      this.permisosService.getChoferData(this.uid)
+      .then(data => {
+        this.choferData = data || {}; // Asignamos los datos al objeto
+      })
+      .catch(error => {
+        console.error('Error al obtener los datos del chofer:', error);
+      });
+
+      // Obtener los datos del pasajero
+      this.permisosService.getPasajeroData(this.uid)
+      .then(data => {
+        this.pasajeroData = data || {}; // Asignamos los datos al objeto
+      })
+      .catch(error => {
+        console.error('Error al obtener los datos del pasajero:', error);
+      });
+    }
   }
 
   ngAfterViewInit() {
@@ -90,10 +114,10 @@ export class ProfilePage implements OnInit {
 
   limpiar(){
     //this.location.reload();
-    this.user.nombre = "";
-    this.user.apellido = "";
-    this.user.sede = "";
-    this.user.carrera = "";
+    this.usuario.nombre = "";
+    this.usuario.apellido = "";
+    this.usuario.sede = "";
+    this.usuario.carrera = "";
 
     if(this.nombre_ && this.apellido_ && this.sede_ && this.carrera_){
       this.animation_nombre =  this.animationCtrl.create()
@@ -118,64 +142,59 @@ export class ProfilePage implements OnInit {
     this.router.navigate(['/home']); // navegamos hacia el Home
   }
 
-  onChangeSegment(event: any){
-    this.segment = event.detail.value;
-    console.log(this.segment);
+  segmentChanged(event: any) {
+    this.selectedSegment = event.detail.value;
   }
 
   // Guardar datos en localStorage
-  guardarEnSessionStorage() {
-    sessionStorage.setItem('user', JSON.stringify(this.user));
+  guardarEnLocalStorage() {
+    localStorage.setItem('userData', JSON.stringify(this.usuario));
     this.presentAlert();
   }
   
   // Obtener datos desde localStorage
-  cargarDesdeSessionStorage() {
-    const userData = sessionStorage.getItem('user');
+  cargarDesdeLocalStorage() {
+    const userData = localStorage.getItem('userData');
     if (userData) {
-      this.user = JSON.parse(userData);
+      this.usuario = JSON.parse(userData);
     }
   }
     
   // Limpiar localStorage
-  limpiarSessionStorage() {
-    sessionStorage.removeItem('user');
+  limpiarLocalStorage() {
+    localStorage.removeItem('userData');
     console.log('Datos eliminados de localStorage');
   }
 
-  async ngOnDestroy() {
-    try {
-      const userExists = await this.firestoreService.userExists(this.user.usuario);
-      const userData = {
-        usuario: this.user.usuario,
-        nombre: this.user.nombre || '',
-        apellido: this.user.apellido || '',
-        sede:this.user.sede || '',
-        carrera:this.user.carrera || '',
-        patente :this.user.patente || '',
-        marca:this.user.marca || '',
-        modelo:this.user.modelo || '',
-        asientos:this.user.asientos || '',
-        direccion :this.user.direccion || '',
-        pasajeros:this.user.pasajeros || ''
-      };
-
-      if (userExists) {
-        // Si el usuario existe, actualizar los datos
-        console.log('Usuario existe. Actualizando datos...');
-        const userDoc = await this.firestoreService.getUserData(this.user.usuario);
-        if (userDoc) {
-          await this.firestoreService.updateUser(userDoc['id'], userData);
-          console.log('Datos actualizados correctamente en Firestore');
-        }
-      } else {
-        // Si el usuario no existe, crear un nuevo registro
-        console.log('Usuario no encontrado. Creando nuevo registro...');
-        await this.firestoreService.addUser(userData);
-        console.log('Usuario creado correctamente en Firestore');
-      }
-    } catch (error) {
-      console.error('Error al verificar o actualizar usuario:', error);
+  guardarDatosChofer(choferData: any) {
+    if (this.uid) {
+      // Guardar los datos del chofer
+      this.permisosService.updateChoferData(this.uid, choferData);
     }
   }
+  
+  guardarDatosPasajero(pasajeroData: any) {
+    if (this.uid) {
+      // Guardar los datos del pasajero
+      this.permisosService.updatePasajeroData(this.uid, pasajeroData);
+    }
+  }
+  
+    // Guardar los datos modificados
+    saveUserData() {
+      const uid = sessionStorage.getItem('uid');
+      if (uid) {
+        // Actualizar los datos en Firestore
+        this.permisosService.updateUserData(uid, this.userData).then(() => {
+          console.log('Datos actualizados en Firestore');
+          
+          // Actualizar los datos en localStorage
+          localStorage.setItem('userData', JSON.stringify(this.userData));
+          console.log('Datos actualizados en LocalStorage');
+        }).catch(error => {
+          console.error('Error al actualizar los datos:', error);
+        });
+      }
+    }
+
 }

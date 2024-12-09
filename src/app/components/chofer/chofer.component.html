@@ -1,0 +1,33 @@
+<ion-card>
+  <ion-card-header>
+    <ion-card-title>Datos del Chofer</ion-card-title>
+  </ion-card-header>
+  <ion-card-content>
+    <ion-item>
+      <ion-label position="fixed">Patente</ion-label>
+      <ion-input [(ngModel)]="choferData.patente" placeholder="Patente"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="fixed">Marca</ion-label>
+      <ion-input [(ngModel)]="choferData.marca" placeholder="Marca"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="fixed">Modelo</ion-label>
+      <ion-input [(ngModel)]="choferData.modelo" placeholder="Modelo"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="fixed">Cantidad de Asientos</ion-label>
+      <ion-select [(ngModel)]="choferData.asientos" placeholder="Seleccione asientos">
+        <ion-select-option value="1">1</ion-select-option>
+        <ion-select-option value="2">2</ion-select-option>
+        <ion-select-option value="3">3</ion-select-option>
+        <ion-select-option value="4">4</ion-select-option>
+      </ion-select>
+    </ion-item>
+    
+    <!-- Botón Guardar -->
+    <ion-button expand="full" (click)="guardarDatosChofer()">Guardar Chofer</ion-button>
+    
+  </ion-card-content>
+</ion-card>
+

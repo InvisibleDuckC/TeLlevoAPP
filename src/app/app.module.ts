@@ -15,10 +15,22 @@ import { provideFirestore, getFirestore } from '@angular/fire/firestore';
 
 // Environment con la configuración de Firebase
 import { environment } from '../environments/environment';
+import { AngularFireModule } from '@angular/fire/compat';
+import { AngularFireAuthModule } from '@angular/fire/compat/auth';
+import { MenuOptionsComponent } from './components/menu-options/menu-options.component';
 
 @NgModule({
-  declarations: [AppComponent],
-  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, ReactiveFormsModule, FormsModule ],
+  declarations: [AppComponent,MenuOptionsComponent],
+  imports: [
+    BrowserModule, 
+    IonicModule.forRoot(), 
+    AppRoutingModule, 
+    ReactiveFormsModule, 
+    FormsModule,
+    AngularFireModule.initializeApp(environment.firebase), // <- Configuración de Firebase
+    AngularFireAuthModule, // <- Módulo de autenticación
+  ],
+  //entryComponents:[MenuOptionsComponent],
   providers: [
     { 
       provide: RouteReuseStrategy,
