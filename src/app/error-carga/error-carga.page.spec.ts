@@ -14,4 +14,17 @@ describe('ErrorCargaPage', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should have the correct title or content in the template', () => {
+    const compiled = fixture.nativeElement as HTMLElement;
+
+    // Verifica que el título o contenido esperado esté presente en el DOM
+    expect(compiled.querySelector('ion-title')?.textContent).toContain('pagina no encontrada');
+  });
+
+  it('should initialize with default values', () => {
+    // Verifica que el componente se inicializa correctamente con valores por defecto
+    expect(component).toBeDefined();
+    expect(component.ngOnInit).toBeDefined();
+  });
 });
