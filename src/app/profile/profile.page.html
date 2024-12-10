@@ -47,28 +47,14 @@
   </ion-card-content>
 </ion-content>
 
-<ion-content *ngIf="loading">
-  <ion-spinner name="crescent"></ion-spinner>
+<ion-content *ngIf="loading" style="display: flex; justify-content: center; align-items: center; height: 100%;">
+  <mat-progress-spinner
+    mode="indeterminate"
+    diameter="50"
+    strokeWidth="5"
+    color="primary">
+  </mat-progress-spinner>
 </ion-content>
 
 
-<ion-footer>
-  <ion-toolbar>
-    <ion-tabs>
-      <ion-tab-bar slot="bottom">
-        <ion-tab-button (click)="irAHome()">
-          <ion-icon name="home-outline"></ion-icon>
-          Home
-        </ion-tab-button>
-        <ion-tab-button tab="trip">
-          <ion-icon name="send-outline"></ion-icon>
-          Viajes
-        </ion-tab-button>
-        <ion-tab-button disabled tab="profile">
-          <ion-icon name="person-outline"></ion-icon>
-          Perfil
-        </ion-tab-button>
-      </ion-tab-bar>
-    </ion-tabs>
-  </ion-toolbar>
-</ion-footer>
+<app-footer></app-footer>

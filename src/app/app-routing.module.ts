@@ -12,7 +12,7 @@ const routes: Routes = [
   {
     path: 'home',
     loadChildren: () => import('./home/home.module').then( m => m.HomePageModule),
-    //canActivate : [auntCanactGuard]
+    canActivate : [auntCanactGuard]
   },
   {
     path: '',
@@ -33,9 +33,27 @@ const routes: Routes = [
     loadChildren: () => import('./register/register.module').then( m => m.RegisterPageModule)
   },
   {
+    path: 'crear-viaje',
+    loadChildren: () => import('./crear-viaje/crear-viaje.module').then( m => m.CrearViajePageModule),
+    canActivate : [auntCanactGuard]
+  },
+  {
+    path: 'buscar-viaje',
+    loadChildren: () => import('./buscar-viaje/buscar-viaje.module').then( m => m.BuscarViajePageModule),
+    canActivate : [auntCanactGuard]
+  },
+  {
+    path: 'mis-viajes',
+    loadChildren: () => import('./mis-viajes/mis-viajes.module').then( m => m.MisViajesPageModule),
+    canActivate : [auntCanactGuard]
+  },
+  {
     path: '**',
     loadChildren: () => import('./error-carga/error-carga.module').then( m => m.ErrorCargaPageModule)
   },
+
+
+
 
      
  ];

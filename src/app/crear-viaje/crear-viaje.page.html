@@ -1,0 +1,61 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Crear Viaje</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form (ngSubmit)="crearViaje()">
+    <!-- Origen -->
+    <ion-item>
+      <ion-label position="fixed">Origen</ion-label>
+      <ion-input [(ngModel)]="viaje.origen" name="origen" required></ion-input>
+      <ion-button (click)="obtenerUbicacionActual()">
+        <ion-icon name="locate-outline"></ion-icon>
+        Usar mi ubicación actual
+      </ion-button>
+    </ion-item>
+
+    <!-- Destino -->
+    <ion-item>
+      <ion-label position="fixed">Destino</ion-label>
+      <ion-input [(ngModel)]="viaje.destino" name="destino" required></ion-input>
+    </ion-item>
+
+    <!-- Fecha y hora -->
+    <ion-item>
+      <ion-label position="stacked">Fecha y hora</ion-label>
+      <ion-button id="datetime-trigger" expand="block" fill="outline">
+        Seleccionar fecha y hora
+      </ion-button>
+      <ion-modal trigger="datetime-trigger">
+        <ng-template>
+          <ion-datetime 
+            [(ngModel)]="viaje.fechaHora" 
+            name="fechaHora"
+            presentation="date-time" 
+            (ionChange)="formatearFecha($event)">
+          </ion-datetime>
+        </ng-template>
+      </ion-modal>
+      <ion-text *ngIf="viaje.fechaHora" color="medium">
+        {{ viaje.fechaHora | date: 'medium' }}
+      </ion-text>
+    </ion-item>
+
+    <!-- Asientos disponibles -->
+    <ion-item>
+      <ion-label position="stacked">Asientos disponibles</ion-label>
+      <ion-select [(ngModel)]="viaje.asientosDisponibles" name="asientosDisponibles" placeholder="Selecciona">
+        <ion-select-option *ngFor="let asiento of [1, 2, 3, 4]" [value]="asiento">
+          {{ asiento }}
+        </ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <!-- Botón para crear viaje -->
+    <ion-button type="submit" expand="full">Crear Viaje</ion-button>
+  </form>
+</ion-content>
+
+<app-footer></app-footer>

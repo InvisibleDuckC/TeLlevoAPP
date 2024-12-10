@@ -1,0 +1,62 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Mis Viajes</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-segment [(ngModel)]="segmentoSeleccionado" (ionChange)="segmentoCambiado($event)">
+    <ion-segment-button value="chofer">
+      Chofer
+    </ion-segment-button>
+    <ion-segment-button value="pasajero">
+      Pasajero
+    </ion-segment-button>
+  </ion-segment>
+
+  <ng-container *ngIf="segmentoSeleccionado === 'chofer'">
+    <ion-list>
+      <ion-item *ngFor="let viaje of misViajesComoChofer">
+        <ion-label>
+          <h2>{{ viaje.origen }} - {{ viaje.destino }}</h2>
+          <p>{{ viaje.fechaHora | date:'short' }}</p>
+          <p>Asientos disponibles: {{ viaje.asientosDisponibles }}</p>
+          <p>Estado: {{ viaje.estado }}</p>
+        </ion-label>
+      </ion-item>
+    </ion-list>
+    <!-- Si no hay viajes como chofer, mostrar el mensaje -->
+    <ion-card *ngIf="misViajesComoChofer.length === 0">
+      <ion-card-header>
+        <ion-card-title>No has creado ningún viaje</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        Aún no tienes viajes creados. Crea uno en la sección "Crear Viaje".
+      </ion-card-content>
+    </ion-card>
+  </ng-container>
+
+  <ng-container *ngIf="segmentoSeleccionado === 'pasajero'">
+    <ion-list>
+      <ion-item *ngFor="let viaje of misViajesComoPasajero">
+        <ion-label>
+          <h2>{{ viaje.origen }} - {{ viaje.destino }}</h2>
+          <p>{{ viaje.fechaHora | date:'short' }}</p>
+          <p>Asientos disponibles: {{ viaje.asientosDisponibles }}</p>
+          <p>Estado: {{ viaje.estado }}</p>
+        </ion-label>
+      </ion-item>
+    </ion-list>
+    <!-- Si no hay viajes como pasajero, mostrar el mensaje -->
+    <ion-card *ngIf="misViajesComoPasajero.length === 0">
+      <ion-card-header>
+        <ion-card-title>No has reservado ningún viaje</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        Aún no tienes reservas. Encuentra un viaje en la sección "Buscar Viaje".
+      </ion-card-content>
+    </ion-card>
+  </ng-container>
+</ion-content>
+
+<app-footer></app-footer>
