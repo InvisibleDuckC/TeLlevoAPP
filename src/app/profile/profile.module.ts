@@ -10,6 +10,8 @@ import { ProfilePage } from './profile.page';
 import { PasajeroComponent } from '../components/pasajero/pasajero.component';
 import { ChoferComponent } from '../components/chofer/chofer.component';
 import { SharedModule } from '../shared/shared.module';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+
 
 
 @NgModule({
@@ -18,7 +20,8 @@ import { SharedModule } from '../shared/shared.module';
     FormsModule,
     IonicModule,
     ProfilePageRoutingModule,
-    SharedModule
+    SharedModule,
+    MatProgressSpinnerModule
   ],
   declarations: [ProfilePage,PasajeroComponent,ChoferComponent]
 })

@@ -4,6 +4,8 @@ import { Viaje } from '../models/viaje';
 import { PermisosService } from '../services/permisos.service';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { ToastController } from '@ionic/angular';
+import { Geolocation } from '@capacitor/geolocation';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-crear-viaje',
@@ -26,7 +28,8 @@ export class CrearViajePage {
     private viajeService: ViajeService,
     private permisosService: PermisosService,
     private firestore: AngularFirestore,
-    private toastController: ToastController
+    private toastController: ToastController,
+    private http: HttpClient
   ) {}
 
   ngOnInit() {
@@ -140,6 +143,32 @@ export class CrearViajePage {
   formatearFecha(event: any) {
     const fecha = new Date(event.detail.value);
     this.viaje.fechaHora = fecha.toISOString(); 
+  }
+
+  async obtenerUbicacionActual() {
+    try {
+      const coordinates = await Geolocation.getCurrentPosition();
+      const { latitude, longitude } = coordinates.coords;
+      const direccion = await this.geocodificarInverso(latitude, longitude);
+      this.mostrarToast(`Dirección: ${direccion}`);
+      this.viaje.origen = direccion;
+      // Asignar a this.viaje.origen = direccion; si lo deseas
+    } catch (error) {
+      console.error('Error al obtener la dirección:', error);
+      this.mostrarToast('No se pudo obtener la dirección.');
+    }
+  }
+
+  geocodificarInverso(lat: number, lon: number): Promise<string> {
+    const url = `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lon}`;
+    return this.http.get<any>(url).toPromise().then(data => {
+      if (data && data.display_name) {
+        // display_name contiene la dirección completa en OpenStreetMap
+        return data.display_name;
+      } else {
+        throw new Error('No se encontró la dirección en la respuesta');
+      }
+    });
   }
 
 }
