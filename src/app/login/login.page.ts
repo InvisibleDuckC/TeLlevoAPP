@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { PermisosService } from '../services/permisos.service';
-import { FirestoreService } from '../services/firestore.service';
-import { ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-login',
@@ -19,9 +17,7 @@ export class LoginPage implements OnInit {
   constructor(
     private activeroute: ActivatedRoute,
     private router:Router,
-    private permisosService: PermisosService,
-    private firestoreService: FirestoreService,
-    private toastController: ToastController
+    private permisosService: PermisosService
   ) {  }
 
   ngOnInit() {
