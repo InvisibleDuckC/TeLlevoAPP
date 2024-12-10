@@ -1,0 +1,28 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Viajes Disponibles</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-item>
+    <ion-label position="stacked">Acompañantes</ion-label>
+    <ion-select [(ngModel)]="numeroAcompanantes" name="numeroAcompanantes" placeholder="Selecciona">
+      <ion-select-option *ngFor="let cantidad of opcionesAcompanantes" [value]="cantidad">
+        {{ cantidad }}
+      </ion-select-option>
+    </ion-select>
+  </ion-item>
+  <ion-list>
+    <ion-item *ngFor="let viaje of viajesDisponibles">
+      <ion-label>
+        <h2>{{ viaje.origen }} - {{ viaje.destino }}</h2>
+        <p>{{ viaje.fechaHora | date: 'short' }}</p>
+        <p>Asientos disponibles: {{ viaje.asientosDisponibles }}</p>
+      </ion-label>
+      <ion-button [disabled]="numeroAcompanantes < 0 || numeroAcompanantes > 3" (click)="reservaViaje(viaje.id)">Reservar</ion-button>
+    </ion-item>
+  </ion-list>
+</ion-content>
+
+<app-footer></app-footer>

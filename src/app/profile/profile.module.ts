@@ -9,6 +9,7 @@ import { ProfilePageRoutingModule } from './profile-routing.module';
 import { ProfilePage } from './profile.page';
 import { PasajeroComponent } from '../components/pasajero/pasajero.component';
 import { ChoferComponent } from '../components/chofer/chofer.component';
+import { SharedModule } from '../shared/shared.module';
 
 
 @NgModule({
@@ -16,7 +17,8 @@ import { ChoferComponent } from '../components/chofer/chofer.component';
     CommonModule,
     FormsModule,
     IonicModule,
-    ProfilePageRoutingModule
+    ProfilePageRoutingModule,
+    SharedModule
   ],
   declarations: [ProfilePage,PasajeroComponent,ChoferComponent]
 })

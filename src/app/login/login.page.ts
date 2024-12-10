@@ -33,11 +33,11 @@ export class LoginPage implements OnInit {
     });
   }
 
-  recuperarContrasena(){
-    this.router.navigate(['/recuperar'])
-  }
-
   crearCuenta(){
     this.router.navigate(['/register'])
+  }
+
+  irARecuperarContrasena() {
+    this.router.navigate(['/recuperar']);
   }
 }

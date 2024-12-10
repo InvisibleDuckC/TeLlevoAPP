@@ -17,10 +17,9 @@ import { provideFirestore, getFirestore } from '@angular/fire/firestore';
 import { environment } from '../environments/environment';
 import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFireAuthModule } from '@angular/fire/compat/auth';
-import { MenuOptionsComponent } from './components/menu-options/menu-options.component';
 
 @NgModule({
-  declarations: [AppComponent,MenuOptionsComponent],
+  declarations: [AppComponent],
   imports: [
     BrowserModule, 
     IonicModule.forRoot(), 

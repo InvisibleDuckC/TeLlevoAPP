@@ -1,12 +1,8 @@
 import { Component, ElementRef, ViewChildren, ViewChild, OnInit} from '@angular/core';
-import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import type { Animation } from '@ionic/angular';
 import { AnimationController,  } from '@ionic/angular';
 import { FirestoreService } from '../services/firestore.service';
-import { PermisosService } from '../services/permisos.service';
-import { MenuOptionsComponent } from '../components/menu-options/menu-options.component';
-import { PopoverController } from '@ionic/angular';
-
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -25,15 +21,14 @@ export class HomePage {
 
   sedes: any = [];
 
+  rol: 'chofer' | 'pasajero' = 'chofer';
+
   solicitud = false;
 
   constructor(
-    private activeroute: ActivatedRoute,
     private router:Router,
     private animationCtrl: AnimationController,
     private firestoreService: FirestoreService,
-    private permisosService: PermisosService,
-    private popoverController: PopoverController
   ) {
     
   }
@@ -75,16 +70,6 @@ export class HomePage {
     }
   }
 
-  irAPerfil(){
-    // Se declara e instancia un elemento de tipo NavigationExtras
-    let navigationExtras: NavigationExtras = {
-      state: {
-        user: this.user, // Al estado se asignamos un objeto con clave y valor
-      }
-    };
-    this.router.navigate(['/profile'],navigationExtras); // navegamos hacia el Perfil y enviamos información adicional
-  }
-
   guardarEnLocalStorage() {
     localStorage.setItem('userData', JSON.stringify(this.user));
   }
@@ -117,17 +102,12 @@ export class HomePage {
     }
   }
 
-  logout() {
-    this.permisosService.logout();
-  }
-
-  async openMenu(ev: Event) {
-    const popover = await this.popoverController.create({
-      component: MenuOptionsComponent,
-      event: ev,
-      translucent: true,
-    });
-    await popover.present();
+  continuar() {
+    if (this.rol === 'chofer') {
+      this.router.navigate(['/crear-viaje']);
+    } else {
+      this.router.navigate(['/buscar-viaje']);
+    }
   }
 
 }
