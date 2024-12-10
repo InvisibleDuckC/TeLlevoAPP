@@ -1,6 +1,6 @@
 import { CanActivateFn, Router } from '@angular/router';
 import { inject } from '@angular/core';
-import { PermisosService } from './permisos.service';
+import { PermisosService } from './services/permisos.service';
 
 export const auntCanactGuard: CanActivateFn = (route, state) => {
  

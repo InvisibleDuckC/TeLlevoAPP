@@ -4,27 +4,29 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
+<ion-content *ngIf="!loading">
   <ion-card-content>
-    <ion-card-title>Informacion basica de {{user.usuario}}</ion-card-title>
+    <ion-card-title>Informacion basica</ion-card-title>
     <ion-item>
-      <ion-input #nombre_ label="Nombre" label-placement="fixed" [(ngModel)]="user.nombre" placeholder="Ingrese nombre"></ion-input>
+      <ion-label position="fixed">Nombre</ion-label>
+      <ion-input [(ngModel)]="userData.nombre" placeholder="Nombre"></ion-input>
     </ion-item>
     <ion-item>
-      <ion-input #apellido_ label="Apellido" label-placement="fixed" [(ngModel)]="user.apellido" placeholder="Ingrese apellido"></ion-input>
+      <ion-label position="fixed">Apellido</ion-label>
+      <ion-input [(ngModel)]="userData.apellido" placeholder="Apellido"></ion-input>
     </ion-item>
     <ion-item>
-      <ion-select label="Sede" [(ngModel)]="user.sede">
-        <ion-select-option value="Antonio_Varas">Antonio Varas</ion-select-option>
-        <ion-select-option value="Republica">República</ion-select-option>
-        <ion-select-option value="Maipu">Maipú</ion-select-option>
-       </ion-select>
+      <ion-label position="fixed">Carrera</ion-label>
+      <ion-input [(ngModel)]="userData.carrera" placeholder="Carrera"></ion-input>
     </ion-item>
     <ion-item>
-      <ion-input #carrera_ label="Carrera" label-placement="fixed" [(ngModel)]="user.carrera" placeholder="Ingrese carrera"></ion-input>
+      <ion-label>Sede</ion-label>
+      <ion-select [(ngModel)]="userData.sedeId">
+        <ion-select-option *ngFor="let sede of sedes | async" [value]="sede.id">{{ sede.nombre }}</ion-select-option>
+      </ion-select>
     </ion-item>
-    <ion-button (click)="guardarEnSessionStorage()">Confirmar datos basicos</ion-button>
-    <ion-segment (ionChange)="onChangeSegment($event)" value="buttons">
+    <ion-button (click)="saveUserData()">Confirmar datos de usuario</ion-button>
+    <ion-segment [(ngModel)]="selectedSegment" (ionChange)="segmentChanged($event)" value="buttons">
       <ion-segment-button value="chofer">
         <ion-label>Chofer</ion-label>
       </ion-segment-button>
@@ -32,12 +34,21 @@
         <ion-label>Pasajero</ion-label>
       </ion-segment-button>
     </ion-segment>
-    <app-pasajero *ngIf="segment === 'pasajero'"></app-pasajero>
-    <app-chofer *ngIf="segment === 'chofer'"></app-chofer>
-    
-    
-
+    <!-- Sección Chofer -->
+    <app-chofer *ngIf="selectedSegment === 'chofer'" 
+                [choferData]="choferData"
+                (saveChoferData)="guardarDatosChofer($event)">
+    </app-chofer>
+    <!-- Sección Pasajero -->
+    <app-pasajero *ngIf="selectedSegment === 'pasajero'" 
+                  [pasajeroData]="pasajeroData"
+                  (savePasajeroData)="guardarDatosPasajero($event)">
+    </app-pasajero> 
   </ion-card-content>
+</ion-content>
+
+<ion-content *ngIf="loading">
+  <ion-spinner name="crescent"></ion-spinner>
 </ion-content>
 
 
@@ -49,9 +60,9 @@
           <ion-icon name="home-outline"></ion-icon>
           Home
         </ion-tab-button>
-        <ion-tab-button tab="map">
-          <ion-icon name="globe-outline"></ion-icon>
-          Mapa
+        <ion-tab-button tab="trip">
+          <ion-icon name="send-outline"></ion-icon>
+          Viajes
         </ion-tab-button>
         <ion-tab-button disabled tab="profile">
           <ion-icon name="person-outline"></ion-icon>

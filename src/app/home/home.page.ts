@@ -3,6 +3,9 @@ import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import type { Animation } from '@ionic/angular';
 import { AnimationController,  } from '@ionic/angular';
 import { FirestoreService } from '../services/firestore.service';
+import { PermisosService } from '../services/permisos.service';
+import { MenuOptionsComponent } from '../components/menu-options/menu-options.component';
+import { PopoverController } from '@ionic/angular';
 
 
 
@@ -18,28 +21,42 @@ export class HomePage {
 
   private animation: Animation | undefined;
   
-  user = {
-    usuario: '',
-    nombre: "",
-    apellido: "",
-    sede:"",
-    carrera:"",
-    patente :'',
-    marca:'',
-    modelo:'',
-    asientos:'',
-    direccion :'',
-    pasajeros:''
-  };
+  user: any;
+
+  sedes: any = [];
+
+  solicitud = false;
 
   constructor(
     private activeroute: ActivatedRoute,
     private router:Router,
     private animationCtrl: AnimationController,
-    private firestoreService: FirestoreService
-  ) 
-  {
-    this.cargarDesdeSessionStorage();
+    private firestoreService: FirestoreService,
+    private permisosService: PermisosService,
+    private popoverController: PopoverController
+  ) {
+    
+  }
+
+  ngOnInit() {
+    this.firestoreService.getSedes().subscribe(
+      (data) => {
+        this.sedes = data;
+      },
+      (error) => {
+        console.error('Error al obtener las sedes:', error);
+      }
+    );
+    const userData = localStorage.getItem('userData');
+  
+    if (userData) {
+      this.user = JSON.parse(userData);
+      console.log('Usuario cargado:', this.user);
+    } else {
+      console.warn('No hay datos en LocalStorage');
+    }
+    console.log(this.user);
+
   }
 
   ngAfterViewInit() {
@@ -58,42 +75,6 @@ export class HomePage {
     }
   }
 
-  async ngOnDestroy() {
-    try {
-      const userExists = await this.firestoreService.userExists(this.user.usuario);
-      const userData = {
-        usuario: this.user.usuario,
-        nombre: this.user.nombre || '',
-        apellido: this.user.apellido || '',
-        sede:this.user.sede || '',
-        carrera:this.user.carrera || '',
-        patente :this.user.patente || '',
-        marca:this.user.marca || '',
-        modelo:this.user.modelo || '',
-        asientos:this.user.asientos || '',
-        direccion :this.user.direccion || '',
-        pasajeros:this.user.pasajeros || ''
-      };
-
-      if (userExists) {
-        // Si el usuario existe, actualizar los datos
-        console.log('Usuario existe. Actualizando datos...');
-        const userDoc = await this.firestoreService.getUserData(this.user.usuario);
-        if (userDoc) {
-          await this.firestoreService.updateUser(userDoc['id'], userData);
-          console.log('Datos actualizados correctamente en Firestore');
-        }
-      } else {
-        // Si el usuario no existe, crear un nuevo registro
-        console.log('Usuario no encontrado. Creando nuevo registro...');
-        await this.firestoreService.addUser(userData);
-        console.log('Usuario creado correctamente en Firestore');
-      }
-    } catch (error) {
-      console.error('Error al verificar o actualizar usuario:', error);
-    }
-  }
-
   irAPerfil(){
     // Se declara e instancia un elemento de tipo NavigationExtras
     let navigationExtras: NavigationExtras = {
@@ -104,20 +85,49 @@ export class HomePage {
     this.router.navigate(['/profile'],navigationExtras); // navegamos hacia el Perfil y enviamos información adicional
   }
 
-    guardarEnSessionStorage() {
-      sessionStorage.setItem('user', JSON.stringify(this.user));
-    }
+  guardarEnLocalStorage() {
+    localStorage.setItem('userData', JSON.stringify(this.user));
+  }
   
-    cargarDesdeSessionStorage() {
-      const userData = sessionStorage.getItem('user');
-      if (userData) {
-        this.user = JSON.parse(userData);
+  cargarDesdeLocalStorage() {
+    const data = localStorage.getItem('userData');
+    
+    // Comprobamos si hay datos almacenados
+    if (data) {
+      try {
+        this.user = JSON.parse(data);  // Intentamos parsear los datos
+      } catch (e) {
+        console.error('Error al parsear los datos de LocalStorage:', e);
       }
+    } else {
+      console.log('No hay datos en LocalStorage');
     }
+  }
   
-    limpiarSessionStorage() {
-      sessionStorage.removeItem('user');
-      console.log('Datos eliminados de localStorage');
+  limpiarLocalStorage() {
+    localStorage.removeItem('userData');
+    console.log('Datos eliminados de localStorage');
+  }
+
+  cambiarEstado(){
+    if (this.solicitud) {
+      this.solicitud = false;
+    } else{
+      this.solicitud = true;
     }
+  }
+
+  logout() {
+    this.permisosService.logout();
+  }
+
+  async openMenu(ev: Event) {
+    const popover = await this.popoverController.create({
+      component: MenuOptionsComponent,
+      event: ev,
+      translucent: true,
+    });
+    await popover.present();
+  }
 
 }
