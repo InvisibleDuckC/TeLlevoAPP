@@ -19,6 +19,11 @@ export class PermisosService {
     private router: Router
   ) { }
 
+  // Método para obtener el listado de sedes
+  getSedes(): Observable<any[]> {
+    return this.firestore.collection('sedes').valueChanges({ idField: 'id' });
+  }
+
   // Método para crear una cuenta
   register(email: string, password: string) {
     return this.afAuth.createUserWithEmailAndPassword(email, password);

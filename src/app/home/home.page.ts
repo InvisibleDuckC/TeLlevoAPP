@@ -1,8 +1,8 @@
 import { Component, ElementRef, ViewChildren, ViewChild, OnInit} from '@angular/core';
 import type { Animation } from '@ionic/angular';
 import { AnimationController,  } from '@ionic/angular';
-import { FirestoreService } from '../services/firestore.service';
 import { Router } from '@angular/router';
+import { PermisosService } from '../services/permisos.service';
 
 
 @Component({
@@ -28,13 +28,13 @@ export class HomePage {
   constructor(
     private router:Router,
     private animationCtrl: AnimationController,
-    private firestoreService: FirestoreService,
+    private permisosService: PermisosService,
   ) {
     
   }
 
   ngOnInit() {
-    this.firestoreService.getSedes().subscribe(
+    this.permisosService.getSedes().subscribe(
       (data) => {
         this.sedes = data;
       },

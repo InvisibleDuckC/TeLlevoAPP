@@ -4,7 +4,6 @@ import { Component, ElementRef, ViewChildren, ViewChild, OnInit} from '@angular/
 import type { Animation } from '@ionic/angular';
 import { AnimationController,  } from '@ionic/angular';
 
-import { FirestoreService } from '../services/firestore.service';
 import { PermisosService } from '../services/permisos.service';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 
@@ -42,7 +41,6 @@ export class ProfilePage implements OnInit {
     private router:Router,
     private alertController: AlertController,
     private animationCtrl: AnimationController,
-    private firestoreService: FirestoreService,
     private firestore: AngularFirestore,
     private permisosService: PermisosService
   ) { }
